@@ -7,7 +7,7 @@ jobs:
 
   deploy:
     needs: set-repo-name
-    uses: parcelLab/ci/.github/workflows/kubernetes.yaml@v8.2.3
+    uses: parcelLab/ci/.github/workflows/kubernetes.yaml@v8.2.6
     with:
       deploymentRepoPath: .chart/${{ github.event.deployment.payload.env }}
       deploymentRepoValuesPath: .chart/${{ github.event.deployment.payload.env }}/values.yaml

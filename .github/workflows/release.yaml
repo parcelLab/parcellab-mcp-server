@@ -11,7 +11,7 @@ on:
 jobs:
   draft_release:
     if: github.ref == 'refs/heads/main'
-    uses: parcellab/ci/.github/workflows/release.yaml@v8
+    uses: parcellab/ci/.github/workflows/release.yaml@v8.2.6
     with:
       commitish: ${{ github.sha }}
     secrets:
