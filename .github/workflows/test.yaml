@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: set-repo-name
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         name: Checkout
         with:
           fetch-depth: 1
