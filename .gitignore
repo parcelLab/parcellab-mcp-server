@@ -85,8 +85,14 @@ ENV/
 env/
 .env
 .env.*
-.python-version
 .direnv/
+
+############################################
+# uv (Astral)
+############################################
+# Keep `.venv/` ignored (managed project env)
+# Track `.python-version` and `uv.lock` for reproducible builds
+# (remove any ignore rules elsewhere that hide them)
 
 # Jupyter Notebook
 .ipynb_checkpoints
