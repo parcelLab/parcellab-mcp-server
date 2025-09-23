@@ -1,0 +1,15 @@
+name: Extract Repo Name
+on:
+  workflow_call:
+    outputs:
+      repo_name:
+        description: "The repository name"
+        value: ${{ jobs.extract.outputs.repo_name }}
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    outputs:
+      repo_name: ${{ steps.extract.outputs.repo_name }}
+    steps:
+      - id: extract
+        run: echo "repo_name=${GITHUB_REPOSITORY##*/}" >> $GITHUB_OUTPUT

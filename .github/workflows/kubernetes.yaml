@@ -1,0 +1,31 @@
+name: Kubernetes
+on:
+  deployment:
+jobs:
+  set-repo-name:
+    uses: ./.github/workflows/extract-repo-name.yaml
+
+  deploy:
+    needs: set-repo-name
+    uses: parcelLab/ci/.github/workflows/kubernetes.yaml@v8.2.3
+    with:
+      deploymentRepoPath: .chart/${{ github.event.deployment.payload.env }}
+      deploymentRepoValuesPath: .chart/${{ github.event.deployment.payload.env }}/values.yaml
+      deploymentRepoURL: parcellab/${{ needs.set-repo-name.outputs.repo_name }}
+      sentryOrg: parcellab
+      sentryProject: ${{ needs.set-repo-name.outputs.repo_name }}
+      sentryUrl: https://sentry.parcellab.com/
+      slackChannelStaging: D05FBHC5SQL
+      slackChannelTest: D05FBHC5SQL
+      registryHostname: 212550490986.dkr.ecr.eu-central-1.amazonaws.com
+      enableContainerScan: false
+      repository_kind: "ecr"
+      chartInAppRepo: true
+    secrets:
+      npmGithubReadToken: ${{ secrets.PACKAGES_READ_TOKEN }}
+      repoAccessToken: ${{ secrets.REPO_ACCESS_TOKEN }}
+      sentryAuthToken: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      slackBotToken: ${{ secrets.SLACK_BOT_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}

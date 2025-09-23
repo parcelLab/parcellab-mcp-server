@@ -1,0 +1,38 @@
+name: Deployment
+on:
+  workflow_dispatch:
+    inputs:
+      author:
+        description: The owner of the deployment change
+        required: false
+        default: parcellab-dev-bot
+      env:
+        description: The environment where to deploy
+        required: false
+        default: test
+      description:
+        description: The information about the deployment change
+        required: false
+        default: Manual deployment in github actions
+      ref:
+        description: The github ref to deploy
+        required: false
+        default: main
+jobs:
+  set-repo-name:
+    uses: ./.github/workflows/extract-repo-name.yaml
+
+  from-dispatch:
+    needs: set-repo-name
+    uses: parcelLab/ci/.github/workflows/deployment.yaml@v8.2.1
+    with:
+      appName: ${{ needs.set-repo-name.outputs.repo_name }}
+      author: ${{ github.event.inputs.author }}
+      chartInAppRepo: true
+      description: ${{ github.event.inputs.description }}
+      env: ${{ github.event.inputs.env }}
+      namespace: infra
+      ref: ${{ github.event.inputs.ref }}
+      versionKey: microservice.image.tag
+    secrets:
+      repoAccessToken: ${{ secrets.REPO_ACCESS_TOKEN }}

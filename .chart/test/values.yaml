@@ -1,0 +1,27 @@
+microservice:
+  name: repo-template-base
+  env: test
+  orgRepository: 212550490986.dkr.ecr.eu-central-1.amazonaws.com
+  config:
+    DEBUG: true
+  livenessProbe:
+    httpGet:
+      path: /_health
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /_ready
+      port: http
+  service:
+    port: 5000
+  image:
+    tag: "c55be2a"
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  ingress:
+    enabled: true

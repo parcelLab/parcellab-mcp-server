@@ -1,0 +1,18 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "chart/**"
+  workflow_dispatch:
+
+jobs:
+  draft_release:
+    if: github.ref == 'refs/heads/main'
+    uses: parcellab/ci/.github/workflows/release.yaml@v8
+    with:
+      commitish: ${{ github.sha }}
+    secrets:
+      repoAccessToken: ${{ secrets.REPO_ACCESS_TOKEN }}

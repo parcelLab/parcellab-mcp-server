@@ -1,0 +1,8 @@
+dependencies:
+  - name: microservice
+    version: "0.0.85"
+    repository: https://charts.parcellab.dev
+apiVersion: v2
+name: repo-template-base
+description: This is a template app, do not forget to change its metadata (prod)
+version: 0.0.0
