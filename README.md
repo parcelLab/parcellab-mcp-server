@@ -107,6 +107,52 @@ pip install pyautogen mcp
 
 ### 3. Connect to parcelLab MCP Server
 
+#### Simple Customer Test With Service Account Credentials
+
+If you received a parcelLab service account with:
+
+- `PARCELLAB_CLIENT`
+- `PARCELLAB_SECRET`
+
+you can test your MCP access in four simple steps.
+
+1. Create a local environment file:
+
+```bash
+cp .env.example .env
+```
+
+2. Add your credentials to `.env`:
+
+```bash
+PARCELLAB_CLIENT=your-client-id
+PARCELLAB_SECRET=your-client-secret
+```
+
+3. Install the example dependencies with `uv`:
+
+```bash
+uv venv
+source .venv/bin/activate
+uv pip install mcp httpx
+```
+
+4. Run the service-account example:
+
+```bash
+python examples/service_account_list_tools.py
+```
+
+What this example does:
+
+1. Reads `PARCELLAB_CLIENT` and `PARCELLAB_SECRET` from `.env`
+2. Requests an OAuth access token using the `client_credentials` flow
+3. Connects to `https://agents.parcellab.com/mcp/`
+4. Calls `list_tools()` and prints the tools available to your service account
+
+If the credentials are valid, you should see the MCP tools printed in the terminal.
+If you receive `401 Unauthorized`, double-check the client ID, client secret, and that the service account has the required scopes.
+
 #### Python MCP Client (OAuth2 + HTTP)
 
 ```python
