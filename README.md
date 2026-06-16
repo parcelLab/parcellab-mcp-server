@@ -127,6 +127,14 @@ cp .env.example .env
 ```bash
 PARCELLAB_CLIENT=your-client-id
 PARCELLAB_SECRET=your-client-secret
+PARCELLAB_SCOPE=track:orderinfo
+```
+
+`PARCELLAB_SCOPE` is optional. If you leave it out, the example defaults to `track:orderinfo`.
+Only add extra scopes if they were explicitly granted to your service account, for example:
+
+```bash
+PARCELLAB_SCOPE=track:orderinfo returns:registration
 ```
 
 3. Install the example dependencies with `uv`:
@@ -146,7 +154,7 @@ python examples/service_account_list_tools.py
 What this example does:
 
 1. Reads `PARCELLAB_CLIENT` and `PARCELLAB_SECRET` from `.env`
-2. Requests an OAuth access token using the `client_credentials` flow
+2. Requests an OAuth access token using the `client_credentials` flow and the configured scope
 3. Connects to `https://agents.parcellab.com/mcp/`
 4. Calls `list_tools()` and prints the tools available to your service account
 

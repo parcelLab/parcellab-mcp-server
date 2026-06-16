@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ENV_FILE = ROOT / ".env"
 TOKEN_URL = "https://auth.parcellab.com/realms/parcellab/protocol/openid-connect/token"
 MCP_URL = "https://agents.parcellab.com/mcp/"
-SCOPE = "track:orderinfo returns:registration"
+DEFAULT_SCOPE = "track:orderinfo"
 
 
 def load_env(path: Path) -> dict[str, str]:
@@ -35,13 +35,13 @@ def load_env(path: Path) -> dict[str, str]:
         values[key.strip()] = value.strip()
     return values
 
-async def fetch_access_token(client_id: str, client_secret: str) -> str:
+async def fetch_access_token(client_id: str, client_secret: str, scope: str) -> str:
     async with httpx.AsyncClient(timeout=30) as client:
         response = await client.post(
             TOKEN_URL,
             data={
                 "grant_type": "client_credentials",
-                "scope": SCOPE,
+                "scope": scope,
             },
             auth=(client_id, client_secret),
         )
@@ -74,8 +74,9 @@ async def main() -> None:
     env = load_env(ENV_FILE)
     client_id = env["PARCELLAB_CLIENT"]
     client_secret = env["PARCELLAB_SECRET"]
+    scope = env.get("PARCELLAB_SCOPE", DEFAULT_SCOPE)
 
-    access_token = await fetch_access_token(client_id, client_secret)
+    access_token = await fetch_access_token(client_id, client_secret, scope)
     await list_tools(access_token)
 
 
